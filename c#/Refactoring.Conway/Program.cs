@@ -1,16 +1,11 @@
 using System;
-using System.Security.Cryptography;
-using System.Security.Principal;
 using System.Threading;
 
 namespace Refactoring.Conway
 {
-    public class Program
+    internal static class Program
     {
-        //TODO: Refactor this
-
-   
-        public static void Main(string[] args)
+        internal static void Main(string[] args)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
@@ -19,24 +14,14 @@ namespace Refactoring.Conway
                 args.Cancel = true;
                 cancellationTokenSource.Cancel();
             }
+
             Console.CancelKeyPress += OnCancelKeyPress;
 
-            try
-            {
-                SingletonFactory.ProcessMain(cancellationTokenSource);
-            }
-            catch (OperationCanceledException)
-            {
-                //DO NOTHING
-            }
+            Startup.Execute(cancellationTokenSource);
+
             Console.CancelKeyPress -= OnCancelKeyPress;
         }
 
-      
-
-
+        
     }
-
-    
-    
 }
